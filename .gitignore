@@ -1,0 +1,25 @@
+cat <<'EOF' > .gitignore
+# ROS 2 Build/Install/Log folders
+build/
+install/
+log/
+
+# Python cache
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# Runtime generated database
+**/database/
+*.db
+*.db-journal
+
+# IDE / Editor specific
+.vscode/
+.idea/
+
+# OS specific
+.DS_Store
+Thumbs.db
+EOF

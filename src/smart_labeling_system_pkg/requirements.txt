@@ -1,0 +1,18 @@
+# --- Special index for PyTorch CPU versions ---
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# --- Main Python Dependencies ---
+pandas
+opencv-python-headless
+pyzbar
+pybullet
+Pillow
+
+# --- AI/ML Libraries (Specify CPU versions where applicable) ---
+tensorflow-cpu
+
+# --- Pin NumPy to a version compatible with ROS 2 Humble's libraries ---
+numpy<2.0
+
+# easyocr is listed last as it pulls in torch, which might have its own numpy dependency preference
+easyocr

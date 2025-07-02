@@ -1,0 +1,5 @@
+# Service to check the ML print quality of a label
+sensor_msgs/Image image
+---
+string quality_prediction # e.g., "GOOD", "BAD"
+float32 confidence
