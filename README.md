@@ -7,15 +7,11 @@ This project, developed for the **Intel® Unnati Industrial Training Program**, 
 
 ---
 
-## Video Demonstration & Project Assets
+## Video Demonstration
 
 Before you begin, see the complete system in action!
 
 -  **Watch the Full System Demo Videos**: https://drive.google.com/drive/folders/1eDimLPakpihkVoP1BTZO0_w6PpfFhtQ_?usp=sharing
--  **Download Required Assets**: You will need to download the image datasets and the trained ML model.
-
-  - Download `project_assets.zip` from this [Google Drive Link](#)
-  - (See **Step 2** in the Setup Instructions for where to place these files.)
 
 ---
 
@@ -43,7 +39,7 @@ Before you begin, see the complete system in action!
 
 The system is built on a computation graph of ROS 2 nodes that manage the flow of data and commands. A `conductor_node` orchestrates the process, driven by the `ui_node`. The `pybullet_visualizer_node` provides the visual simulation. The `ai_validation_node` performs the core logic, calling the `label_quality_ml_node` service and publishing results that are logged by the `database_logger_node`.
 
-> **Note:** This is a placeholder link. You must create a `docs` folder in your repo, upload your diagram as `system_architecture.png`, commit, push, and then update this link.
+![Alt text](docs/SystemArchitecture.png#width=50%)
 
 ---
 
@@ -64,68 +60,77 @@ This project is designed to be built and run inside a Docker container. This ens
 
 ```bash
 git clone https://github.com/ShahazadAbdulla/ros2-intel-unnati-smart-labeling.git
-cd ros2_intel_ws
+cd ros2-intel-unnati-smart-labeling
 ```
 ### Step 2: Download and Place Project Assets
 
 The image datasets and trained ML models are hosted separately due to their size.
 
-1.  **Download the project\_assets.zip file** using the Google Drive link provided at the top of this README.
+1.  **Download the project\_assets.zip file** 
+- Download `project_assets.zip` from this https://drive.google.com/file/d/1ASYQg9XSTQtSha_tagggE2zGxNKZx_I3/view?usp=sharing
     
 2.  **Unzip the file.** You will get three folders: label\_images, label\_images\_test, and saved\_models.
-    
-3.  Generated code ros2-intel-unnati-smart-labeling/├── Dockerfile├── README.md└── src/ └── smart\_labeling\_system\_pkg/ ├── config/ ├── label\_images/ <-- You placed this here ├── label\_images\_test/ <-- You placed this here └── saved\_models/ <-- You placed this here IGNORE\_WHEN\_COPYING\_START
-    
-4.  Use code [with caution](https://support.google.com/legal/answer/13505487). IGNORE\_WHEN\_COPYING\_END
-    
 
+3.  **Place the folders as shown below**
+    
+```bash
+ros2-intel-unnati-smart-labeling/
+├── Dockerfile
+├── README.md
+└── src/
+    └── smart_labeling_system_pkg/
+        ├── config/
+        ├── label_images/       <-- You placed this here
+        ├── label_images_test/  <-- You placed this here
+        └── saved_models/       <-- You placed this here
+```
+    
 ### Step 3: Build the Docker Image
 
 From the root of the project directory (ros2-intel-unnati-smart-labeling/), run the build command. This will take a significant amount of time on the first run.
 
-Generated bash
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML      `docker build -t smart_labeling_system .`    
-
-IGNORE\_WHEN\_COPYING\_START Use code [with caution](https://support.google.com/legal/answer/13505487). BashIGNORE\_WHEN\_COPYING\_END
+```bash
+docker build -t smart_labeling_system .
+```
 
 ### Step 4: Run the System
 
 The system uses a persistent volume to save the traceability.db file to your host machine.
 
-1.  Generated bash mkdir -p persistent\_data/database IGNORE\_WHEN\_COPYING\_START
+1.  **Create the persistent data directory** on your host:
+```bash
+mkdir -p persistent_data/database
+``` 
+2. **(For GUI Mode) Allow your display server to accept connections from the container:**
+```bash      
+xhost +
+```
+3. **Run the container** This command launches the full simulation with the smaller test dataset.
+```bash      
+docker run -it --rm --name smart_labeling_run --privileged \
+    -e DISPLAY=$DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v ${PWD}/persistent_data/database:/ros2_ws/install/smart_labeling_system_pkg/share/smart_labeling_system_pkg/database \
+    smart_labeling_system
+```
+  - The Tkinter UI and PyBullet simulation windows should appear.
+  - Use the UI to "START" and "EXIT" the system.
+  - Click "TRACEABILITY REPORT" in the UI to view the live database log within the application.
     
-
-*   Use code [with caution](https://support.google.com/legal/answer/13505487). BashIGNORE\_WHEN\_COPYING\_END
-    
-*   Generated bash xhost + IGNORE\_WHEN\_COPYING\_START
-    
-*   Use code [with caution](https://support.google.com/legal/answer/13505487). BashIGNORE\_WHEN\_COPYING\_END
-    
-*   Generated bash docker run -it --rm --name smart\_labeling\_run --privileged \\ -e DISPLAY=$DISPLAY \\ -v /tmp/.X11-unix:/tmp/.X11-unix \\ -v ${PWD}/persistent\_data/database:/ros2\_ws/install/smart\_labeling\_system\_pkg/share/smart\_labeling\_system\_pkg/database \\ smart\_labeling\_system IGNORE\_WHEN\_COPYING\_START
-    
-
-1.  Use code [with caution](https://support.google.com/legal/answer/13505487). BashIGNORE\_WHEN\_COPYING\_END
-    
-    *   The Tkinter UI and PyBullet simulation windows should appear.
-        
-    *   Use the **UI** to "START" and "EXIT" the system.
-        
-    *   Click "TRACEABILITY REPORT" in the UI to view the live database log within the application.
-        
 
 ### Other Launch Options
 
-You can override the default launch arguments to run different configurations. Append the launch command to the docker run ... command.
-
-*   Generated bash docker run -it --rm ... smart\_labeling\_system ros2 launch smart\_labeling\_system\_pkg system\_launch.py sim\_mode:=false csv\_file:=products.csv images\_folder:=label\_images/ IGNORE\_WHEN\_COPYING\_START
-    
-*   Use code [with caution](https://support.google.com/legal/answer/13505487). BashIGNORE\_WHEN\_COPYING\_END
+You can override the default launch arguments to run different configurations. Append the launch command to the docker run ...:
+- **Run with the full 50-product dataset in headless (no-GUI) mode for a quick data-processing run:**
+```bash
+docker run -it --rm ... smart_labeling_system ros2 launch smart_labeling_system_pkg system_launch.py sim_mode:=false csv_file:=products.csv images_folder:=label_images/
+```
     
 
 ### Accessing the Final Database
 
-After running the system, the traceability log will be available on your host machine at:./persistent\_data/database/traceability.db
+After running the system, the traceability log will be available on your host machine at:
+./persistent_data/database/traceability.db
 
 You can open this file with any local SQLite browser for further analysis.
 
