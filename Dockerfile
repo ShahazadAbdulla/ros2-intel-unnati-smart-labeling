@@ -15,7 +15,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # python3-tk: ABSOLUTELY ESSENTIAL for your Tkinter UI to run
 # libgl1-mesa-glx: Often required by OpenCV for GUI operations (cv2.imshow, etc.)
 # In Dockerfile - This is the final lean version
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --allow-insecure-repositories --allow-unauthenticated \
     python3-pip \
     git \
     python3-tk \
