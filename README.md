@@ -3,23 +3,23 @@
 This project, developed for the **Intel® Unnati Industrial Training Program**, is a comprehensive, automated system that simulates an industrial quality control station. It uses a modular ROS 2 architecture to validate product labels through a multi-stage AI pipeline, provides a real-time 3D simulation with PyBullet, and ensures complete traceability via a persistent SQLite database.
 
 **Team:** Robotrace  
-**Author(s):** Shahazad Abdulla, [Teammate's Name]
+**Author(s):** Shahazad Abdulla, Hridya Mariam Reji
 
 ---
 
-## 🎥 Video Demonstration & Project Assets
+## Video Demonstration & Project Assets
 
 Before you begin, see the complete system in action!
 
-- 📺 **Watch the Full System Demo Video**: [Click here to view on Google Drive](#)
-- 📦 **Download Required Assets**: You will need to download the image datasets and the trained ML model.
+-  **Watch the Full System Demo Videos**: https://drive.google.com/drive/folders/1eDimLPakpihkVoP1BTZO0_w6PpfFhtQ_?usp=sharing
+-  **Download Required Assets**: You will need to download the image datasets and the trained ML model.
 
   - Download `project_assets.zip` from this [Google Drive Link](#)
   - (See **Step 2** in the Setup Instructions for where to place these files.)
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **Modular ROS 2 Architecture**: A distributed system of 9 communicating nodes for scalability and clear separation of concerns.
 
@@ -39,7 +39,7 @@ Before you begin, see the complete system in action!
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 The system is built on a computation graph of ROS 2 nodes that manage the flow of data and commands. A `conductor_node` orchestrates the process, driven by the `ui_node`. The `pybullet_visualizer_node` provides the visual simulation. The `ai_validation_node` performs the core logic, calling the `label_quality_ml_node` service and publishing results that are logged by the `database_logger_node`.
 
@@ -47,11 +47,11 @@ The system is built on a computation graph of ROS 2 nodes that manage the flow o
 
 ---
 
-## 🚀 Getting Started: Setup & Execution
+## Getting Started: Setup & Execution
 
 This project is designed to be built and run inside a Docker container. This ensures all dependencies are handled correctly.
 
-### ✅ Prerequisites
+### Prerequisites
 
 - A **Linux host machine** (Ubuntu 22.04 recommended).
 - **Docker Engine** installed and running.
@@ -60,12 +60,12 @@ This project is designed to be built and run inside a Docker container. This ens
 
 ---
 
-### 🔧 Step 1: Clone the Repository
+### Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/ShahazadAbdulla/ros2-intel-unnati-smart-labeling.git
-cd ros2-intel-unnati-smart-labeling
-
+cd ros2_intel_ws
+```
 ### Step 2: Download and Place Project Assets
 
 The image datasets and trained ML models are hosted separately due to their size.
