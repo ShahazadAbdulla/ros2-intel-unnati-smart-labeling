@@ -123,7 +123,11 @@ docker run -it --rm --name smart_labeling_run --privileged \
 You can override the default launch arguments to run different configurations. Append the launch command to the docker run ...:
 - **Run with the full 50-product dataset in headless (no-GUI) mode for a quick data-processing run:**
 ```bash
-docker run -it --rm ... smart_labeling_system ros2 launch smart_labeling_system_pkg system_launch.py sim_mode:=false csv_file:=products.csv images_folder:=label_images/
+docker run -it --rm --name smart_labeling_run --privileged \
+    -e DISPLAY=$DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v ${PWD}/persistent_data/database:/ros2_ws/install/smart_labeling_system_pkg/share/smart_labeling_system_pkg/database \
+    smart_labeling_system ros2 launch smart_labeling_system_pkg system_launch.py sim_mode:=false csv_file:=products.csv images_folder:=label_images/
 ```
     
 
